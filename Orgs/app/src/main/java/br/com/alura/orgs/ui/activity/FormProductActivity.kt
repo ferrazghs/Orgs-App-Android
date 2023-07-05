@@ -1,29 +1,27 @@
 package br.com.alura.orgs.ui.activity
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import br.com.alura.orgs.R
+import androidx.appcompat.app.AppCompatActivity
+import br.com.alura.orgs.databinding.ActivityFormProductBinding
 import br.com.alura.orgs.ui.dao.ProductDao
 import br.com.alura.orgs.ui.model.Produtc
 import java.math.BigDecimal
 
 class FormProductActivity :
-    AppCompatActivity(R.layout.activity_form_product) {
-
+    AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding = ActivityFormProductBinding.inflate(layoutInflater)
 
-        val buttonSave = findViewById<Button>(R.id.activity_form_product_button_save)
+        setContentView(binding.root)
+
+        val buttonSave = binding.activityFormProductButtonSave
         buttonSave.setOnClickListener {
-            val fieldName = findViewById<EditText>(R.id.activity_form_product_title)
-            val fieldDesc = findViewById<EditText>(R.id.activity_form_product_description)
-            val fieldPrice = findViewById<EditText>(R.id.activity_form_product_price)
+            val fieldName = binding.activityFormProductTitle
+            val fieldDesc = binding.activityFormProductDescription
+            val fieldPrice = binding.activityFormProductPrice
 
             val title = fieldName.text.toString()
             val description = fieldDesc.text.toString()
@@ -46,11 +44,12 @@ class FormProductActivity :
             if (title.isNotBlank() && description.isNotBlank()) {
                 dao.insert(produtc)
             } else {
-                Toast.makeText(this, "Não é possivel salvar os produtos pois existem campos em branco", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this,
+                    "Não é possivel salvar os produtos pois existem campos em branco",
+                    Toast.LENGTH_LONG
+                ).show()
             }
-
-
-            Log.i("FormProduct", "onCreate: $produtc")
 
             finish()
         }

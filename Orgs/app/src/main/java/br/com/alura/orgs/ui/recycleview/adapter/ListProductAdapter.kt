@@ -2,11 +2,9 @@ package br.com.alura.orgs.ui.recycleview.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import br.com.alura.orgs.R
+import br.com.alura.orgs.databinding.LayoutItemBinding
 import br.com.alura.orgs.ui.model.Produtc
 
 class ListProductAdapter(
@@ -16,12 +14,13 @@ class ListProductAdapter(
 
     private val products = products.toMutableList()
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun link(product: Produtc) {
-            val title = itemView.findViewById<TextView>(R.id.layout_item_title)
-            val description = itemView.findViewById<TextView>(R.id.layout_item_description)
-            val price = itemView.findViewById<TextView>(R.id.layout_item_price)
+    class ViewHolder(binding: LayoutItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        val title = binding.layoutItemTitle
+        val description = binding.layoutItemDescription
+        val price = binding.layoutItemPrice
+
+        fun link(product: Produtc) {
             title.text = product.title
             description.text = product.description
             price.text = product.price.toPlainString()
@@ -30,10 +29,14 @@ class ListProductAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.layout_item, parent, false)
+        val binding =
+            LayoutItemBinding.inflate(
+                LayoutInflater.from(context),
+                parent,
+                false
+            )
 
-        return ViewHolder(view)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -41,8 +44,8 @@ class ListProductAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val produtc = products[position]
-        holder.link(produtc)
+        val product = products[position]
+        holder.link(product)
     }
 
     fun update(products: List<Produtc>) {

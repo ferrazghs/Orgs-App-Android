@@ -3,19 +3,22 @@ package br.com.alura.orgs.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import br.com.alura.orgs.R
+import br.com.alura.orgs.databinding.ActivityListProductsBinding
 import br.com.alura.orgs.ui.dao.ProductDao
 import br.com.alura.orgs.ui.recycleview.adapter.ListProductAdapter
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class ListProductsActivity : AppCompatActivity(R.layout.activity_list_products) {
+class ListProductsActivity : AppCompatActivity() {
 
     private val dao = ProductDao()
     private val adapter = ListProductAdapter(products = dao.findAll(), context = this)
 
+    private val binding by lazy {
+        ActivityListProductsBinding.inflate(layoutInflater)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(binding.root)
         configRecyclerView()
         configFab()
     }
@@ -26,12 +29,12 @@ class ListProductsActivity : AppCompatActivity(R.layout.activity_list_products) 
     }
 
     private fun configRecyclerView() {
-        val recyclerView = findViewById<RecyclerView>(R.id.activity_list_products_recyclerview)
+        val recyclerView = binding.activityListProductsRecyclerview
         recyclerView.adapter = adapter
     }
 
     private fun configFab() {
-        val fab = findViewById<FloatingActionButton>(R.id.activity_list_products_fab)
+        val fab = binding.activityListProductsFab
 
         fab.setOnClickListener {
             openFormProduct()
