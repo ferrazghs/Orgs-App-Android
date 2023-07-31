@@ -5,5 +5,6 @@ import java.math.BigDecimal
 data class Produtc(
     val title: String,
     val description: String,
-    val price: BigDecimal
+    val price: BigDecimal,
+    var image : String? = null
 )
